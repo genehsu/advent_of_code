@@ -1,4 +1,5 @@
 # https://adventofcode.com/2015/day/1
+# --- Day 1: Not Quite Lisp ---
 
 class Day01
   # Santa is trying to deliver presents in a large apartment building, but he
