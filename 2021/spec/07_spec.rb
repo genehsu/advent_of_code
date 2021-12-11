@@ -1,9 +1,9 @@
 require 'day07'
 
-RSpec.describe "Day 7" do
+RSpec.describe Day07 do
 
   context "Part 1" do
-    subject  { move_crabs_7a input }
+    subject  { described_class.part1a input }
 
     context "example" do
       let(:input) { example07 }
@@ -19,7 +19,7 @@ RSpec.describe "Day 7" do
   end
 
   context "Part 2" do
-    subject  { move_crabs_7b input }
+    subject  { described_class.part2a input }
 
     context "example" do
       let(:input) { example07 }
