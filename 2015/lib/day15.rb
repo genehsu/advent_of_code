@@ -130,6 +130,12 @@ class Day15
     quantities
   end
 
+  def self.part1_simple(input)
+    ingredients = parse input
+    bowl = MixingBowl.new ingredients
+    explore_combos(bowl, ingredients.size) { |bowl, quantities| true }
+  end
+
   def self.part1(input)
     ingredients = parse input
     bowl = MixingBowl.new ingredients
