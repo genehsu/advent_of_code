@@ -1,7 +1,7 @@
 require 'day06'
 
-RSpec.describe "Day 6" do
-  subject  { grow_fish_6 input, days }
+RSpec.describe Day06 do
+  subject  { described_class.grow_fish input, days }
 
   context "Part 1" do
     let(:days) { 80 }

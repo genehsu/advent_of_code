@@ -1,12 +1,21 @@
 require 'day09'
 
-RSpec.describe "Day 9" do
+RSpec.describe Day09 do
+  let(:example) do
+    <<~EODATA.split(/\n/)
+      2199943210
+      3987894921
+      9856789892
+      8767896789
+      9899965678
+    EODATA
+  end
 
   context "Part 1" do
-    subject  { sum_low_points input }
+    subject  { described_class.part1 input }
 
     context "example" do
-      let(:input) { example09 }
+      let(:input) { example }
 
       it { is_expected.to eq 15 }
     end
@@ -19,10 +28,10 @@ RSpec.describe "Day 9" do
   end
 
   context "Part 2" do
-    subject  { count_basins_9 input }
+    subject  { described_class.part2 input }
 
     context "example" do
-      let(:input) { example09 }
+      let(:input) { example }
       it { is_expected.to eq 1134 }
     end
 
@@ -32,16 +41,6 @@ RSpec.describe "Day 9" do
       it { is_expected.to eq answer }
     end
   end
-end
-
-def example09
-  <<~EODATA.split(/\n/)
-    2199943210
-    3987894921
-    9856789892
-    8767896789
-    9899965678
-  EODATA
 end
 
 def day09

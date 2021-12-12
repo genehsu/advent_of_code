@@ -1,12 +1,35 @@
 require 'day04'
 
-RSpec.describe "Day 4" do
+RSpec.describe Day04 do
+  let(:example) do
+    <<~EODATA.split(/\n/)
+      7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
+
+      22 13 17 11  0
+       8  2 23  4 24
+      21  9 14 16  7
+       6 10  3 18  5
+       1 12 20 15 19
+
+       3 15  0  2 22
+       9 18 13 17  5
+      19  8  7 25 23
+      20 11 10 24  4
+      14 21 16 12  6
+
+      14 21 17 24  4
+      10 16 15  9 19
+      18  8 23 26 20
+      22 11 13  6  5
+       2  0 12  3  7
+    EODATA
+  end
 
   context "Part 1" do
-    subject  { score_4a input }
+    subject  { described_class.part1 input }
 
     context "example" do
-      let(:input) { example04 }
+      let(:input) { example}
       it { is_expected.to eq 4512 }
     end
 
@@ -18,10 +41,10 @@ RSpec.describe "Day 4" do
   end
 
   context "Part 2" do
-    subject  { score_4b input }
+    subject  { described_class.part2 input }
 
     context "example" do
-      let(:input) { example04 }
+      let(:input) { example}
       it { is_expected.to eq 720 }
     end
 
@@ -31,30 +54,6 @@ RSpec.describe "Day 4" do
       it { is_expected.to eq answer }
     end
   end
-end
-
-def example04
-  <<~EODATA.split(/\n/)
-    7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
-
-    22 13 17 11  0
-     8  2 23  4 24
-    21  9 14 16  7
-     6 10  3 18  5
-     1 12 20 15 19
-
-     3 15  0  2 22
-     9 18 13 17  5
-    19  8  7 25 23
-    20 11 10 24  4
-    14 21 16 12  6
-
-    14 21 17 24  4
-    10 16 15  9 19
-    18  8 23 26 20
-    22 11 13  6  5
-     2  0 12  3  7
-  EODATA
 end
 
 def day04

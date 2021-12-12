@@ -1,12 +1,26 @@
 require 'day05'
 
-RSpec.describe "Day 5" do
+RSpec.describe Day05 do
+  let(:example) do
+    <<~EODATA.split(/\n/)
+      0,9 -> 5,9
+      8,0 -> 0,8
+      9,4 -> 3,4
+      2,2 -> 2,1
+      7,0 -> 7,4
+      6,4 -> 2,0
+      0,9 -> 2,9
+      3,4 -> 1,4
+      0,0 -> 8,8
+      5,5 -> 8,2
+    EODATA
+  end
 
   context "Part 1" do
-    subject  { count_overlaps_5a input }
+    subject  { described_class.part1 input }
 
     context "example" do
-      let(:input) { example05 }
+      let(:input) { example }
       it { is_expected.to eq 5 }
     end
 
@@ -18,10 +32,10 @@ RSpec.describe "Day 5" do
   end
 
   context "Part 2" do
-    subject  { count_overlaps_5b input }
+    subject  { described_class.part2 input }
 
     context "example" do
-      let(:input) { example05 }
+      let(:input) { example }
       it { is_expected.to eq 12 }
     end
 
@@ -31,21 +45,6 @@ RSpec.describe "Day 5" do
       it { is_expected.to eq answer }
     end
   end
-end
-
-def example05
-  <<~EODATA.split(/\n/)
-    0,9 -> 5,9
-    8,0 -> 0,8
-    9,4 -> 3,4
-    2,2 -> 2,1
-    7,0 -> 7,4
-    6,4 -> 2,0
-    0,9 -> 2,9
-    3,4 -> 1,4
-    0,0 -> 8,8
-    5,5 -> 8,2
-  EODATA
 end
 
 def day05

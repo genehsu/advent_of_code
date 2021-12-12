@@ -1,9 +1,9 @@
 require 'day08'
 
-RSpec.describe "Day 8" do
+RSpec.describe Day08 do
 
   context "Part 1" do
-    subject  { unique_digit_counts_8 input }
+    subject  { described_class.part1 input }
 
     context "example" do
       let(:input) { example08 }
@@ -19,7 +19,7 @@ RSpec.describe "Day 8" do
   end
 
   context "Part 2" do
-    subject  { sum_of_digits_8 input }
+    subject  { described_class.part2 input }
 
     context "example" do
       let(:input) { example08 }
