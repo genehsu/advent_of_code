@@ -1,6 +1,6 @@
 require 'day02'
 
-RSpec.describe "Day 2" do
+RSpec.describe Day02 do
   subject  { horizontal * depth }
   let(:horizontal) { pilot_result[0] }
   let(:depth) { pilot_result[1] }
@@ -16,7 +16,7 @@ RSpec.describe "Day 2" do
   end
 
   context "Part 1" do
-    let(:pilot_result) { pilot_2a input }
+    let(:pilot_result) { described_class.part1 input }
 
     context "example" do
       let(:input) { example }
@@ -31,7 +31,7 @@ RSpec.describe "Day 2" do
   end
 
   context "Part 2" do
-    let(:pilot_result) { pilot_2b input }
+    let(:pilot_result) { described_class.part2 input }
 
     context "example" do
       let(:input) { example }

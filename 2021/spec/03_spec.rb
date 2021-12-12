@@ -1,12 +1,11 @@
 require 'day03'
 
-RSpec.describe "Day 3" do
-
+RSpec.describe Day03 do
   context "Part 1" do
     subject  { gamma_rate * epsilon_rate }
     let(:gamma_rate) { decode_result[0] }
     let(:epsilon_rate) { decode_result[1] }
-    let(:decode_result) { decode_3a input }
+    let(:decode_result) { described_class.part1 input }
 
     context "example" do
       let(:input) { example03 }
@@ -24,7 +23,7 @@ RSpec.describe "Day 3" do
     subject  { o2 * co2 }
     let(:o2) { decode_result[0] }
     let(:co2) { decode_result[1] }
-    let(:decode_result) { decode_3b input }
+    let(:decode_result) { described_class.part2 input }
 
     context "example" do
       let(:input) { example03 }

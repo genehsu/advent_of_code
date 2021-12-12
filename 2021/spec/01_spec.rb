@@ -1,10 +1,10 @@
 require 'day01'
 
-RSpec.describe "Day 1" do
+RSpec.describe Day01 do
   let(:example) { [199, 200, 208, 210, 200, 207, 240, 269, 260, 263] }
 
   context "Part 1" do
-    subject { count_increasing input }
+    subject { described_class.part1 input }
 
     context "example" do
       let(:input) { example }
@@ -19,7 +19,7 @@ RSpec.describe "Day 1" do
   end
 
   context "Part 2" do
-    subject { count_window_increasing input }
+    subject { described_class.part2 input }
 
     context "example" do
       let(:input) { example }
