@@ -165,16 +165,16 @@ class Day17
     end
 
     hit ? max_y :
-      dx == 0 && x < @x_range.begin ? -1 :
-      y >= bottom && x > right ? -2 :
-      -3
+      dx == 0 && x < @x_range.begin ? -1 : # cannot reach the target
+      y >= bottom && x > right ? -2 : # overshot the target
+      -3 # generic target miss
   end
 
   def explore
     max_y = 0
     count = 0
-    (3..@x_range.end).each do |dx|
-      (@y_range.begin..100).each do |dy|
+    (1..@x_range.end).each do |dx|
+      (@y_range.begin..@y_range.begin.abs).each do |dy|
         try = shoot(dx, dy)
         count += 1 if try >= 0
         break if try == -1 || try == -2
