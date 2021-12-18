@@ -107,13 +107,14 @@ class Day15
     # Don't count the starting position
     grid[0][0] = 0
     index_range = 0...grid.size
+    target = [grid.size-1, grid.size-1]
 
     too_big = 999999
     distances = Array.new(grid.size) { Array.new(grid.size, too_big) }
-    neighbors = []
+    neighbors = PriorityQueue.new
     neighbors << [0,0,0]
 
-    while node = neighbors.shift
+    while node = neighbors.pop
       path, x, y = node
 
       # skip this node if the distance has already been set
@@ -122,6 +123,7 @@ class Day15
       # set the distance of the current node
       current = path + grid[y][x]
       distances[y][x] = current
+      return current if [x, y] == target
 
       # add the neighbors if they haven't been visited
       [[x+1, y],
@@ -135,9 +137,6 @@ class Day15
           neighbors << [current, x1, y1]
         end
       end
-
-      # sorting in place because ruby doesn't have a built-in min heap
-      neighbors.sort_by!(&:first)
     end
     distances[-1][-1]
   end
@@ -295,6 +294,80 @@ class Day15
   #
   # Using the full map, what is the lowest total risk of any path from the top
   # left to the bottom right?
+
+  class PriorityQueue
+    attr_reader :data
+
+    def initialize
+      @data = []
+    end
+
+    def <<(v)
+      @data << v
+      swim(size - 1)
+      self
+    end
+
+    def pop
+      remove_at(0)
+    end
+
+    def size
+      @data.size
+    end
+
+    def empty?
+      @data.empty?
+    end
+
+    def swap(i, j)
+      @data[i], @data[j] = @data[j], @data[i]
+    end
+
+    def less(i, j)
+      @data[i].first < @data[j].first
+    end
+
+    def swim(i)
+      parent = (i - 1) / 2
+      while i > 0 && less(i, parent)
+        swap(i, parent)
+        i = parent
+        parent = (i - 1)/ 2
+      end
+    end
+
+    def sink(i)
+      while (j = min_child(i)) >= 1
+        swap(i, j)
+        i = j
+      end
+    end
+
+    def min_child(i)
+      left = 2 * i + 1
+      right = left + 1
+      return -1 if left >= size
+      return right if right < size && less(right, left) && less(right, i)
+
+      less(left, i) ? left : -1
+    end
+
+    def remove_at(k)
+      return if empty?
+
+      last_index = size - 1
+      swap(k, last_index)
+      value = @data.pop
+      return value if k == last_index
+
+      elem = @data[k]
+      sink(k)
+      swim(k) if @data[k].eql? elem
+
+      value
+    end
+  end
 
   def self.part2(input)
     grid = parse5 input
