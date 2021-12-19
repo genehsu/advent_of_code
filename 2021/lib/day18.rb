@@ -208,6 +208,9 @@ class Day18
 
   attr_reader :data
 
+  LEFT = 0
+  RIGHT = 1
+
   def initialize(data)
     @data = data
   end
@@ -218,76 +221,56 @@ class Day18
   end
 
   def reduce
-    # Do explodes first
+    reduce if explode || split
+  end
+
+  def explore
     stack = []
-    stack << [1] << [0]
+    stack << [RIGHT] << [LEFT]
     while path = stack.pop
       element = dig *path
+
+      return true if yield path, element
+
       next if Numeric === element
-      if path.size == 4
-        explode(path, element)
-        reduce
-      else
-        [1,0].each { |i| stack << path + [i] }
-      end
+      next if path.size == 4
+      stack << path + [RIGHT]
+      stack << path + [LEFT]
     end
+  end
 
-    # Then do a split
-    stack << [1] << [0]
-    while path = stack.pop
-      element = dig *path
-      if Numeric === element
-        if element >= 10
-          split(path, element)
-          reduce
-        end
-      else
-        [1,0].each { |i| stack << path + [i] }
+  def explode
+    explore do |path, element|
+      if ! (Numeric === element) && path.size == 4
+        explode_to LEFT, path, element[LEFT]
+        explode_to RIGHT, path, element[RIGHT]
+        parent = dig *path[0, path.size-1]
+        parent[path[-1]] = 0
       end
     end
   end
 
-  def explode(path, pair)
-    explode_to_left path, pair[0]
-    explode_to_right path, pair[1]
-    parent = dig *path[0, path.size-1]
-    parent[path[-1]] = 0
+  def split
+    explore do |path, element|
+      if Numeric === element && element >= 10
+        left = element / 2
+        right = element - left
+        parent = dig *path[0, path.size-1]
+        parent[path[-1]] = [left, right]
+      end
+    end
   end
 
-  def split(path, element)
-    left = element / 2
-    right = element - left
-    parent = dig *path[0, path.size-1]
-    parent[path[-1]] = [left, right]
-  end
-
-  def explode_to_right(path, value)
+  def explode_to(side, path, value)
     temp = path.dup
     while i = temp.pop
-      next if i == 1
+      next if i == side
       element = dig *temp
 
-      i = 1
+      i = side
       while element && !(Numeric === element[i])
         element = element[i]
-        i = 0
-      end
-
-      element[i] += value if element
-      break
-    end
-  end
-
-  def explode_to_left(path, value)
-    temp = path.dup
-    while i = temp.pop
-      next if i == 0
-      element = dig *temp
-
-      i = 0
-      while element && !(Numeric === element[i])
-        element = element[i]
-        i = 1
+        i = 1-side
       end
 
       element[i] += value if element
@@ -309,8 +292,8 @@ class Day18
 
   def eval_pair(pair)
     return pair if Numeric === pair
-    eval_pair(pair[0]) * 3 +
-      eval_pair(pair[1]) * 2
+    eval_pair(pair[LEFT]) * 3 +
+      eval_pair(pair[RIGHT]) * 2
   end
 
   def self.part1(input)
