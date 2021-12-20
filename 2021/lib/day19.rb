@@ -460,29 +460,18 @@ class Day19
       beacon = Vector[*beacon] unless beacon.is_a? Vector
       unless @lookup[beacon]
         @lookup[beacon] = true
+        (0...@beacons.size).each do |i|
+          delta = @beacons[i] - beacon
+          magnitude = delta.dot(delta)
+          magnitudes[magnitude] = [@beacons[i], beacon]
+        end
         @beacons << beacon
       end
       self
     end
 
-    def index
-      @magnitudes = generate_magnitudes(@beacons)
-    end
-
-    def generate_magnitudes(beacons)
-      magnitudes = {}
-      (0...beacons.size).each do |i|
-        (i+1...beacons.size).each do |j|
-          delta = beacons[i] - beacons[j]
-          magnitude = delta.dot(delta)
-          magnitudes[magnitude] = [beacons[i], beacons[j]]
-        end
-      end
-      magnitudes
-    end
-
     def match(other)
-      generate_magnitudes(other.beacons).select { |amount, _| magnitudes[amount] }
+      other.magnitudes.select { |amount, _| magnitudes[amount] }
     end
 
     def merge(other, matches)
@@ -509,7 +498,7 @@ class Day19
         count = beacon_lookup.count do |target, main|
           main - (m * target) == translation
         end
-        if count == 12
+        if count == beacon_lookup.size
           rotation = m
           break
         end
@@ -517,10 +506,8 @@ class Day19
 
       # finally add beacons to the main scanner
       other.beacons.each do |beacon|
-        next if beacon_lookup[beacon].is_a? Vector
         self << (rotation * beacon) + translation
       end
-      index
 
       [translation, rotation]
     end
@@ -541,7 +528,6 @@ class Day19
           @scanners << current
         end
       end
-      @scanners.each { |s| s.index }
       @positions = [Vector[0,0,0]]
     end
 
@@ -549,15 +535,14 @@ class Day19
       graph = determine_merge_order
       @main = @scanners[0]
       visited = { 0 => true }
-      stack = graph[0].map { |i| [0, i] }
-      while (source, target = stack.pop)
-        next if visited[target]
-        visited[target] = true
-        stack += graph[target].map { |i| [target, i] }
+      stack = graph[0].map { |i, matches| [0, i, matches] }
+      while (source, dest, matches = stack.pop)
+        next if visited[dest]
+        visited[dest] = true
+        stack += graph[dest].map { |i, matches| [dest, i, matches] }
         source = @scanners[source]
-        target = @scanners[target]
-        matches = source.match(target)
-        translation, rotation = @main.merge target, matches
+        dest = @scanners[dest]
+        translation, rotation = @main.merge dest, matches
         @positions << translation
       end
     end
@@ -570,9 +555,11 @@ class Day19
         source = @scanners[i]
         (i...@scanners.size).each do |j|
           dest = @scanners[j]
-          if source.match(dest).size == 66
-            graph[i] << j
-            graph[j] << i
+          matches = source.match(dest)
+          if matches.size == 66
+            graph[i] << [j, matches]
+            inverse_matches = dest.match(source)
+            graph[j] << [i, inverse_matches]
           end
         end
       end
