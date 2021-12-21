@@ -146,22 +146,20 @@ class Day20
   class Image
     attr_reader :algo
 
-    PADDING = 100
+    PADDING = 2
 
     def initialize(input)
       @algo = input.shift
       input.shift
-      @grid = [0] * PADDING
+      @grid = []
       input.each do |line|
         row = 0
         line.size.times do |i|
           row |= 1 << i if line[i] == '#'
         end
-        row <<= PADDING
         @grid << row
       end
-      PADDING.times { @grid << 0 }
-      @enhanced = 0
+      PADDING.times { pad 0 }
     end
 
     FLIP3 = {
@@ -175,7 +173,27 @@ class Day20
       7 => 7,
     }.freeze
 
+    def pad(bit)
+      size = @grid.size
+      if bit == 0
+        @grid.unshift 0
+        @grid.map! { |row| row << 1 }
+        @grid << 0
+      else
+        border_row = (1 << size + PADDING) - 1
+        frame_row = (1 << size + PADDING) - (1 << size) | (1 << PADDING) - 1
+        @grid.unshift 0
+        @grid.map! { |row| (row << 1) | frame_row }
+        @grid << border_row
+        PADDING.times do |i|
+          @grid[i] = border_row
+          @grid[-1-i] = border_row
+        end
+      end
+    end
+
     def enhance
+      pad @grid[1][1]
       new_grid = Array.new(@grid.size, 0)
       max_index = @grid.size - 3
       (0..max_index).each do |y|
@@ -190,7 +208,6 @@ class Day20
           end
         end
       end
-      @enhanced += 1
       @grid = new_grid
     end
 
@@ -201,10 +218,9 @@ class Day20
     end
 
     def count_lit_pixels
-      padding = PADDING - @enhanced
-      mask = (1 << @grid.size - padding * 2 ) - 1
-      (padding...@grid.size-padding).map do |i|
-        row = @grid[i] >> padding
+      mask = (1 << @grid.size - PADDING) - 1
+      (1...@grid.size-1).map do |i|
+        row = @grid[i] >> PADDING
         count_bits(row & mask)
       end.sum
     end
