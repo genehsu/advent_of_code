@@ -131,7 +131,6 @@ class Day21
   # player win?
 
   require 'matrix'
-  require 'pry'
 
   def self.generate_node(node, sum_of_rolls)
     position, score = node[node[0]]
@@ -154,7 +153,7 @@ class Day21
     end
   end
 
-  def self.part2(input)
+  def self.part2a(input)
     wins = {}
     stack = []
     starting_node = [1, [input[0], 0], [input[1], 0]]
@@ -178,5 +177,28 @@ class Day21
       end
     end
     wins[starting_node].to_a.max
+  end
+
+  DIRAC_DICE = [1, 2, 3].repeated_permutation(3).map(&:sum).tally.freeze
+
+  def self.dirac(p1, s1, p2, s2, cache = {})
+    key = [p1, s1, p2, s2]
+    return cache[key] if cache.key? key
+
+    cache[key] = DIRAC_DICE.map do |move, frequency|
+      pos = p1 + move
+      pos -= 10 if pos > 10
+      score = s1 + pos
+      if score >= 21
+        Vector[1, 0] * frequency
+      else
+        result = dirac(p2, s2, pos, score, cache)
+        Vector[result[1], result[0]] * frequency
+      end
+    end.sum(Vector[0,0])
+  end
+
+  def self.part2(input)
+    dirac(input[0], 0, input[1], 0).to_a.max
   end
 end
