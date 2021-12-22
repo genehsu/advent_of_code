@@ -186,19 +186,21 @@ class Day21
     return cache[key] if cache.key? key
 
     cache[key] = DIRAC_DICE.map do |move, frequency|
-      pos = p1 + move
-      pos -= 10 if pos > 10
-      score = s1 + pos
+      pos = (p1 + move) % 10
+      score = s1 + pos + 1
       if score >= 21
-        Vector[1, 0] * frequency
+        [frequency, 0]
       else
         result = dirac(p2, s2, pos, score, cache)
-        Vector[result[1], result[0]] * frequency
+        [result[1] * frequency, result[0] * frequency]
       end
-    end.sum(Vector[0,0])
+    end.each_with_object([0, 0]) do |node, obj|
+      obj[0] += node[0]
+      obj[1] += node[1]
+    end
   end
 
   def self.part2(input)
-    dirac(input[0], 0, input[1], 0).to_a.max
+    dirac(input[0]-1, 0, input[1]-1, 0).to_a.max
   end
 end
