@@ -67,16 +67,20 @@ class Day01
   #
   # How many measurements are larger than the previous measurement?
 
-  def self.part1(input)
-    last = nil
+  def self.count_increasing(input, window_size)
+    j = window_size
     count = 0
-    input.each do |current|
-      if last && current > last
-        count += 1
-      end
-      last = current
+    input.each_with_index do |n, i|
+      break if j == input.size
+      m = input[j]
+      count += 1 if m > n
+      j += 1
     end
     count
+  end
+
+  def self.part1(input)
+    count_increasing(input, 1)
   end
 
   # Considering every single measurement isn't as useful as you expected:
@@ -125,19 +129,6 @@ class Day01
   # larger than the previous sum?
 
   def self.part2(input)
-    last = nil
-    sum = nil
-    window = []
-    count = 0
-    input.each do |current|
-      window << current
-      window.shift if window.size > 3
-      sum = window.sum if window.size == 3
-      if last && sum && sum > last
-        count += 1
-      end
-      last = sum
-    end
-    count
+    count_increasing(input, 3)
   end
 end
