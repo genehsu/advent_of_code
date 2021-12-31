@@ -54,29 +54,36 @@ class Day03
   # consumption of the submarine? (Be sure to represent your answer in decimal,
   # not binary.)
 
+  MORE_COMMON = -> (count) { count["0"] > count["1"] ? "0" : "1" }
+  LESS_COMMON = -> (count) { count["0"] > count["1"] ? "1" : "0" }
+
+  class Report1
+    def initialize(input)
+      number_size = input[0].size
+      @counts = []
+      number_size.times do |i|
+        @counts << input.map { |n| n[i] }.tally
+      end
+    end
+
+    def count(fxn)
+      @counts
+        .map { |count| fxn.call(count) }
+        .join("").to_i(2)
+    end
+
+    def epsilon
+      count MORE_COMMON
+    end
+
+    def gamma
+      count LESS_COMMON
+    end
+  end
+
   def self.part1(input)
-    counts = nil
-    gamma_rate = 0
-    epsilon_rate = 0
-
-    counts = Array.new(input.first.size) { Array.new(2, 0) }
-    input.each do |line|
-      line.size.times do |i|
-        bit  = line[i].to_i
-        counts[i][bit] += 1
-      end
-    end
-
-    counts.each_with_index do |(zero, one), i|
-      gamma_rate <<= 1
-      epsilon_rate <<= 1
-      if zero > one
-        epsilon_rate |= 1
-      else
-        gamma_rate |= 1
-      end
-    end
-    [gamma_rate, epsilon_rate]
+    report = Report1.new input
+    return [report.gamma, report.epsilon]
   end
 
   # Next, you should verify the life support rating, which can be determined by
@@ -162,35 +169,33 @@ class Day03
   # is the life support rating of the submarine? (Be sure to represent your
   # answer in decimal, not binary.)
 
-  def self.calc_o2_rating(input, index)
-    counts = { "0" => 0, "1" => 0 }
-    input.each { |d| counts[d[index]] += 1 }
-    if counts["0"] > counts["1"]
-      target = "0"
-    else
-      target = "1"
+  class Report2
+    def initialize(input)
+      @input = input
     end
-    input = input.select { |d| d[index] == target }
-    return input.first.to_i(2) if input.size == 1
-    calc_o2_rating(input, index+1)
-  end
 
-  def self.calc_co2_rating(input, index)
-    counts = { "0" => 0, "1" => 0 }
-    input.each { |d| counts[d[index]] += 1 }
-    if counts["1"] < counts["0"]
-      target = "1"
-    else
-      target = "0"
+    def count_filter(fxn)
+      numbers = @input
+      numbers.first.size.times do |i|
+        count = numbers.map { |n| n[i] }.tally
+        target = fxn.call(count)
+        numbers = numbers.select { |n| n[i] == target }
+        break if numbers.size == 1
+      end
+      numbers.first.to_i(2)
     end
-    input = input.select { |d| d[index] == target }
-    return input.first.to_i(2) if input.size == 1
-    calc_co2_rating(input, index+1)
+
+    def oxygen
+      count_filter MORE_COMMON
+    end
+
+    def co2
+      count_filter LESS_COMMON
+    end
   end
 
   def self.part2(input)
-    o2 = calc_o2_rating(input, 0)
-    co2 = calc_co2_rating(input, 0)
-    [o2, co2]
+    report = Report2.new input
+    return [report.oxygen, report.co2]
   end
 end
