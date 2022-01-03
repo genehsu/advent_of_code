@@ -1,6 +1,8 @@
 require 'day11'
 
 RSpec.describe Day11 do
+  let(:part1_answer) { "hxbxxyzz" }
+
   context "Part 1" do
     subject { described_class.part1 input }
 
@@ -10,8 +12,8 @@ RSpec.describe Day11 do
     end
 
     context "problem" do
-      let(:input) { day11 }
-      let(:answer) { "hxbxxyzz" }
+      let(:input) { AocInput.read(11).first }
+      let(:answer) { part1_answer }
       it { is_expected.to eq answer }
     end
   end
@@ -20,13 +22,9 @@ RSpec.describe Day11 do
     subject { described_class.part1 input }
 
     context "problem" do
-      let(:input) { "hxbxxyzz" }
+      let(:input) { part1_answer }
       let(:answer) { "hxcaabcc" }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day11
-  "hxbxwxba"
 end

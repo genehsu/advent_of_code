@@ -16,19 +16,12 @@ RSpec.describe Day10 do
       end
     end
   end
-  let(:example) do
-    <<~'EODATA'.split(/\n/)
-      London to Dublin = 464
-      London to Belfast = 518
-      Dublin to Belfast = 141
-    EODATA
-  end
 
   context "Part 1" do
     subject { described_class.part1 input }
 
     context "problem" do
-      let(:input) { day10 }
+      let(:input) { AocInput.read(10).first }
       let(:answer) { 252594 }
       it { is_expected.to eq answer }
     end
@@ -38,13 +31,9 @@ RSpec.describe Day10 do
     subject { described_class.part2 input }
 
     context "problem" do
-      let(:input) { day10 }
+      let(:input) { AocInput.read(10).first }
       let(:answer) { 3579328 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day10
-  "1113222113"
 end

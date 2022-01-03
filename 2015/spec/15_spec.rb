@@ -17,7 +17,7 @@ RSpec.describe Day15 do
     end
 
     context "problem" do
-      let(:input) { day15 }
+      let(:input) { AocInput.read(15) }
       let(:answer) { 21367368 }
       it { is_expected.to eq answer }
     end
@@ -32,18 +32,9 @@ RSpec.describe Day15 do
     end
 
     context "problem" do
-      let(:input) { day15 }
+      let(:input) { AocInput.read(15) }
       let(:answer) { 1766400 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day15
-  <<~'EODATA'.split(/\n/)
-    Sprinkles: capacity 2, durability 0, flavor -2, texture 0, calories 3
-    Butterscotch: capacity 0, durability 5, flavor -3, texture 0, calories 3
-    Chocolate: capacity 0, durability 0, flavor 5, texture -1, calories 8
-    Candy: capacity 0, durability -1, flavor 0, texture 5, calories 8
-  EODATA
 end

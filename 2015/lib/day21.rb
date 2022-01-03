@@ -93,6 +93,12 @@ class Day21
     @boss = boss
   end
 
+  def self.parse(input)
+    /Hit Points: (?<hp>\d+)\s+Damage: (?<damage>\d+)\s+Armor: (?<armor>\d+)/ =~ input
+    hp, damage, armor = [hp, damage, armor].map(&:to_i)
+    Creature.new(hp, damage, armor)
+  end
+
   def self.creatureify(stats)
     Creature.new( *stats.fetch_values(:hp, :damage, :armor) )
   end
@@ -124,8 +130,8 @@ class Day21
     @ring_combos ||= RINGS.combination(2).to_a << [[0,0,0],[0,0,0]]
   end
 
-  def self.part1(boss)
-    boss = creatureify boss
+  def self.part1(input)
+    boss = parse(input)
     player = equip(WEAPONS.last, ARMOR.last, RINGS.last, RINGS.first)
     WEAPONS.map do |weapon|
       ARMOR.map do |armor|
@@ -144,8 +150,8 @@ class Day21
   #
   # What is the most amount of gold you can spend and still lose the fight?
 
-  def self.part2(boss)
-    boss = creatureify boss
+  def self.part2(input)
+    boss = parse(input)
     player = equip(WEAPONS.last, ARMOR.last, RINGS.last, RINGS.first)
     WEAPONS.map do |weapon|
       ARMOR.map do |armor|

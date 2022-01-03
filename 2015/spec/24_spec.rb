@@ -14,7 +14,7 @@ RSpec.describe Day24 do
     end
 
     context "problem" do
-      let(:input) { day24 }
+      let(:input) { AocInput.read(24).map(&:to_i) }
       let(:answer) { 10439961859 }
       it { is_expected.to eq answer }
     end
@@ -29,13 +29,9 @@ RSpec.describe Day24 do
     end
 
     context "problem" do
-      let(:input) { day24 }
+      let(:input) { AocInput.read(24).map(&:to_i) }
       let(:answer) { 72050269 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day24
-  [1, 3, 5, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113]
 end

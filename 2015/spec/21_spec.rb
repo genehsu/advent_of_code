@@ -1,7 +1,6 @@
 require 'day21'
 
 RSpec.describe Day21 do
-
   context "player_win?" do
     subject { game.player_win? }
     let(:game) { described_class.new player, boss }
@@ -15,7 +14,7 @@ RSpec.describe Day21 do
     subject { described_class.part1 input }
 
     context "problem" do
-      let(:input) { day21 }
+      let(:input) { AocInput.read(21).join(' ') }
       let(:answer) { 121 }
       it { is_expected.to eq answer }
     end
@@ -25,13 +24,9 @@ RSpec.describe Day21 do
     subject { described_class.part2 input }
 
     context "problem" do
-      let(:input) { day21 }
+      let(:input) { AocInput.read(21).join(' ') }
       let(:answer) { 201 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day21
-  { hp: 103, damage: 9, armor: 2 }
 end

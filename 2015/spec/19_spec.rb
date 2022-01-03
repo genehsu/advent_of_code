@@ -24,8 +24,8 @@ RSpec.describe Day19 do
     end
 
     context "problem" do
-      let(:input) { day19_molecule }
-      let(:replacements) { day19 }
+      let(:input) { AocInput.read(19)[-1] }
+      let(:replacements) { AocInput.read(19)[0..-3] }
       let(:answer) { 535 }
       it { is_expected.to eq answer }
     end
@@ -55,62 +55,10 @@ RSpec.describe Day19 do
     end
 
     context "problem" do
-      let(:input) { day19_molecule }
-      let(:replacements) { day19 }
+      let(:input) { AocInput.read(19)[-1] }
+      let(:replacements) { AocInput.read(19)[0..-3] }
       let(:answer) { 212 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day19_molecule
-  "CRnCaCaCaSiRnBPTiMgArSiRnSiRnMgArSiRnCaFArTiTiBSiThFYCaFArCaCaSiThCaPBSiThSiThCaCaPTiRnPBSiThRnFArArCaCaSiThCaSiThSiRnMgArCaPTiBPRnFArSiThCaSiRnFArBCaSiRnCaPRnFArPMgYCaFArCaPTiTiTiBPBSiThCaPTiBPBSiRnFArBPBSiRnCaFArBPRnSiRnFArRnSiRnBFArCaFArCaCaCaSiThSiThCaCaPBPTiTiRnFArCaPTiBSiAlArPBCaCaCaCaCaSiRnMgArCaSiThFArThCaSiThCaSiRnCaFYCaSiRnFYFArFArCaSiRnFYFArCaSiRnBPMgArSiThPRnFArCaSiRnFArTiRnSiRnFYFArCaSiRnBFArCaSiRnTiMgArSiThCaSiThCaFArPRnFArSiRnFArTiTiTiTiBCaCaSiRnCaCaFYFArSiThCaPTiBPTiBCaSiThSiRnMgArCaF".freeze
-end
-
-def day19
-  <<~'EODATA'.split(/\n/)
-    Al => ThF
-    Al => ThRnFAr
-    B => BCa
-    B => TiB
-    B => TiRnFAr
-    Ca => CaCa
-    Ca => PB
-    Ca => PRnFAr
-    Ca => SiRnFYFAr
-    Ca => SiRnMgAr
-    Ca => SiTh
-    F => CaF
-    F => PMg
-    F => SiAl
-    H => CRnAlAr
-    H => CRnFYFYFAr
-    H => CRnFYMgAr
-    H => CRnMgYFAr
-    H => HCa
-    H => NRnFYFAr
-    H => NRnMgAr
-    H => NTh
-    H => OB
-    H => ORnFAr
-    Mg => BF
-    Mg => TiMg
-    N => CRnFAr
-    N => HSi
-    O => CRnFYFAr
-    O => CRnMgAr
-    O => HP
-    O => NRnFAr
-    O => OTi
-    P => CaP
-    P => PTi
-    P => SiRnFAr
-    Si => CaSi
-    Th => ThCa
-    Ti => BP
-    Ti => TiTi
-    e => HF
-    e => NAl
-    e => OMg
-  EODATA
 end

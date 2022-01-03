@@ -20,7 +20,7 @@ RSpec.describe Day23 do
     end
 
     context "problem" do
-      let(:input) { day23 }
+      let(:input) { AocInput.read(23) }
       let(:register) { "b" }
       let(:answer) { 255 }
       it { is_expected.to eq answer }
@@ -31,63 +31,10 @@ RSpec.describe Day23 do
     subject { described_class.part2 input, register }
 
     context "problem" do
-      let(:input) { day23 }
+      let(:input) { AocInput.read(23) }
       let(:register) { "b" }
       let(:answer) { 334 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day23
-  <<~EODATA.split(/\n/)
-    jio a, +22
-    inc a
-    tpl a
-    tpl a
-    tpl a
-    inc a
-    tpl a
-    inc a
-    tpl a
-    inc a
-    inc a
-    tpl a
-    inc a
-    inc a
-    tpl a
-    inc a
-    inc a
-    tpl a
-    inc a
-    inc a
-    tpl a
-    jmp +19
-    tpl a
-    tpl a
-    tpl a
-    tpl a
-    inc a
-    inc a
-    tpl a
-    inc a
-    tpl a
-    inc a
-    inc a
-    tpl a
-    inc a
-    inc a
-    tpl a
-    inc a
-    tpl a
-    tpl a
-    jio a, +8
-    inc b
-    jie a, +4
-    tpl a
-    inc a
-    jmp +2
-    hlf a
-    jmp -7
-  EODATA
 end

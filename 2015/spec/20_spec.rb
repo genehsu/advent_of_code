@@ -1,8 +1,6 @@
 require 'day20'
 
 RSpec.describe Day20 do
-  let(:day20) { 33100000 }
-
   context "count_presents" do
     subject { described_class.count_presents n }
 
@@ -16,9 +14,9 @@ RSpec.describe Day20 do
     subject { described_class.part1 input }
 
     context "problem" do
-      let(:input) { day20 }
+      let(:input) { AocInput.read(20).first.to_i }
       let(:answer) { 776160 }
-      #it { is_expected.to eq answer }
+      it { is_expected.to eq answer }
     end
   end
 
@@ -26,7 +24,7 @@ RSpec.describe Day20 do
     subject { described_class.part2 input }
 
     context "problem" do
-      let(:input) { day20 }
+      let(:input) { AocInput.read(20).first.to_i }
       let(:answer) { 786240 }
       it { is_expected.to eq answer }
     end

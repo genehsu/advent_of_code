@@ -187,9 +187,10 @@ class Day22
 
   Creature = Struct.new(:hp, :mana, :armor, :damage)
 
-  def initialize(player, boss, hardmode=false)
+  def initialize(player, input, hardmode=false)
     @player = Creature.new(player[:hp], player[:mana], 0, 0)
-    @boss = Creature.new(boss[:hp], 0, 0, boss[:damage])
+    /Hit Points: (?<hp>\d+)\s+Damage: (?<damage>\d+)/ =~ input
+    @boss = Creature.new(hp.to_i, 0, 0, damage.to_i)
     @hardmode = hardmode
   end
 
@@ -310,8 +311,8 @@ class Day22
     min
   end
 
-  def self.part1(player, boss)
-    game = new player, boss
+  def self.part1(player, input)
+    game = new player, input
     explore(game)
   end
 
@@ -323,8 +324,8 @@ class Day22
   # With the same starting stats for you and the boss, what is the least amount
   # of mana you can spend and still win the fight?
 
-  def self.part2(player, boss)
-    game = new player, boss, true
+  def self.part2(player, input)
+    game = new player, input, true
     explore(game)
   end
 end

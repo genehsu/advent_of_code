@@ -16,7 +16,7 @@ RSpec.describe Day04 do
     end
 
     context "problem" do
-      let(:input) { day04 }
+      let(:input) { AocInput.read(04).first }
       let(:answer) { 346386 }
       it { is_expected.to eq answer }
     end
@@ -36,13 +36,9 @@ RSpec.describe Day04 do
     end
 
     context "problem" do
-      let(:input) { day04 }
+      let(:input) { AocInput.read(04).first }
       let(:answer) { 9958218 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day04
-  "iwrupvqb"
 end
