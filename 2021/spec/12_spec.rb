@@ -1,21 +1,6 @@
 require 'day12'
 
 RSpec.describe Day12 do
-  let (:example) do
-    <<~EODATA.split(/\n/)
-      5483143223
-      2745854711
-      5264556173
-      6141336146
-      6357385478
-      4167524645
-      2176841721
-      6882881134
-      4846848554
-      5283751526
-    EODATA
-  end
-
   context "Part 1" do
     subject  { described_class.part1 input }
 
@@ -82,7 +67,7 @@ RSpec.describe Day12 do
     end
 
     context "problem" do
-      let(:input) { day12 }
+      let(:input) { AocInput.read(12) }
       let(:answer) { 3463 }
       it { is_expected.to eq answer }
     end
@@ -154,40 +139,9 @@ RSpec.describe Day12 do
     end
 
     context "problem" do
-      let(:input) { day12 }
+      let(:input) { AocInput.read(12) }
       let(:answer) { 91533 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day12
-  <<~EODATA.split(/\n/)
-    RT-start
-    bp-sq
-    em-bp
-    end-em
-    to-MW
-    to-VK
-    RT-bp
-    start-MW
-    to-hr
-    sq-AR
-    RT-hr
-    bp-to
-    hr-VK
-    st-VK
-    sq-end
-    MW-sq
-    to-RT
-    em-er
-    bp-hr
-    MW-em
-    st-bp
-    to-start
-    em-st
-    st-end
-    VK-sq
-    hr-st
-  EODATA
 end

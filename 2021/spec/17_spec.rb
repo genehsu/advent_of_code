@@ -13,7 +13,7 @@ RSpec.describe Day17 do
     end
 
     context "problem" do
-      let(:input) { day17 }
+      let(:input) { AocInput.read_line(17) }
       let(:answer) { 3160 }
       it { is_expected.to eq answer }
     end
@@ -29,13 +29,9 @@ RSpec.describe Day17 do
     end
 
     context "problem" do
-      let(:input) { day17 }
+      let(:input) { AocInput.read_line(17) }
       let(:answer) { 1928 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day17
-  'target area: x=282..314, y=-80..-45'
 end

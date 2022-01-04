@@ -21,7 +21,7 @@ RSpec.describe Day23 do
     end
 
     context "problem" do
-      let(:input) { day23 }
+      let(:input) { AocInput.read(23) }
       let(:answer) { 14510 }
       it { is_expected.to eq answer }
     end
@@ -37,19 +37,9 @@ RSpec.describe Day23 do
     end
 
     context "problem" do
-      let(:input) { day23 }
+      let(:input) { AocInput.read(23) }
       let(:answer) { 49180 }
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day23
-  <<~EODATA.split(/\n/)
-    #############
-    #...........#
-    ###B#A#B#C###
-      #C#D#D#A#
-      #########
-  EODATA
 end

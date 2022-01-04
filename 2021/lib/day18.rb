@@ -212,11 +212,17 @@ class Day18
   RIGHT = 1
 
   def initialize(data)
-    @data = data
+    @data = parse data
+  end
+
+  require 'json'
+
+  def parse(data)
+    String === data ? JSON.parse(data) : data
   end
 
   def add(other)
-    @data = [@data, other]
+    @data = [@data, parse(other)]
     reduce
   end
 
@@ -331,16 +337,9 @@ class Day18
   # What is the largest magnitude of any sum of two different snailfish numbers
   # from the homework assignment?
 
-  require 'json'
-
-  def self.deep_copy(obj)
-    JSON.parse(obj.to_json)
-  end
-
   def self.part2(input)
     pairs = (0...input.size).to_a.permutation(2).map do |a,b|
-      pair = [input[a], input[b]]
-      fish = new deep_copy pair
+      fish = new "[#{input[a]},#{input[b]}]"
       fish.reduce
       fish.magnitude
     end.max

@@ -1,9 +1,8 @@
 require 'day21'
 
 RSpec.describe Day21 do
-  let(:example) do
-    [4, 8]
-  end
+  let(:example) { [4, 8] }
+  let(:day21) { [4, 6] }
 
   context "Part 1" do
     subject  { described_class.part1 input }
@@ -36,8 +35,4 @@ RSpec.describe Day21 do
       it { is_expected.to eq answer }
     end
   end
-end
-
-def day21
-  [4, 6]
 end
