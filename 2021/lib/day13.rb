@@ -1,6 +1,8 @@
 # https://adventofcode.com/2021/day/13
 # --- Day 13: Transparent Origami ---
 
+require_relative '../../lib/util'
+
 class Day13
   # You reach another volcanically active part of the cave. It would be nice if
   # you could do some kind of thermal imaging so you could tell ahead of time
@@ -208,7 +210,7 @@ class Day13
   end
 
   def self.count_dots
-    @graph.map { |row| count_bits(row) }.sum
+    @graph.map { |row| Util.count_bits(row) }.sum
   end
 
   def self.part1(input)
@@ -230,33 +232,5 @@ class Day13
     end
     dump
     count_dots
-  end
-
-  BIT_LOOKUP = [
-    0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
-    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
-    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-    4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8
-  ]
-
-  def self.count_bits(n)
-    count = 0
-    while n > 0
-      count += BIT_LOOKUP[n & 0xff]
-      n >>= 8
-    end
-    count
   end
 end
