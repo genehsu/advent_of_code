@@ -7,16 +7,19 @@ class Day09
   end
 
   def parse(input)
-    @area = []
-    input.each do |line|
-      row = line.split(//).map(&:to_i)
-      row.unshift 9
-      row << 9
-      @area << row
+    @area = input.map do |line|
+      [9, line.split(//).map(&:to_i), 9].flatten
     end
     border_row = Array.new(@area.first.size, 9)
-    @area.unshift border_row
-    @area << border_row
+    @area = [border_row, *@area, border_row]
+  end
+
+  def min_adjacent(x, y)
+    [
+            @area[x][y-1],
+      @area[x-1][y], @area[x+1][y],
+            @area[x][y+1],
+    ].min
   end
 
   def sum_low_points
@@ -25,13 +28,7 @@ class Day09
       next if x == 0 or x == @area.size - 1
       row.each_with_index do |cell, y|
         next if y == 0 or y == row.size - 1
-        min_adjacent = [
-          @area[x+1][y],
-          @area[x-1][y],
-          @area[x][y+1],
-          @area[x][y-1]
-        ].min
-        sum += cell + 1 if cell < min_adjacent
+        sum += cell + 1 if cell < min_adjacent(x, y)
       end
     end
     sum
@@ -39,7 +36,7 @@ class Day09
 
   def self.part1(input)
     area = new input
-    return area.sum_low_points
+    area.sum_low_points
   end
 
   def basin_size(x, y)
@@ -77,6 +74,6 @@ class Day09
   def self.part2(input)
     area = new input
     basins = area.get_basin_sizes
-    return basins.sort[-3,3].reduce(&:*)
+    basins.sort[-3,3].reduce(&:*)
   end
 end

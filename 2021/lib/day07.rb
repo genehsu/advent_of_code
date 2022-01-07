@@ -6,8 +6,7 @@ class Day07
   end
 
   def self.part1(input)
-    a = input.min
-    b = input.max
+    a, b = input.minmax
     (a..b).map do |n|
       cumulative_difference(input, n)
     end.min
@@ -23,8 +22,7 @@ class Day07
   end
 
   def self.part2(input)
-    a = input.min
-    b = input.max
+    a, b = input.minmax
     (a..b).map do |n|
       cumulative_difference_expensive(input, n)
     end.min
@@ -32,7 +30,7 @@ class Day07
 
   def self.part2a(input)
     average = input.sum / input.size
-    (average-1..average+1).map do |n|
+    [average, average+1].map do |n|
       cumulative_difference_expensive(input, n)
     end.min
   end
