@@ -2,6 +2,7 @@ require 'fileutils'
 
 task default: :download
 
+desc "Download year and day for Advent of Code. Defaults to today"
 task :download, [:year,:day] do |t, args|
   year = args.year || Time.now.utc.year
   day = args.day || Time.now.utc.day
@@ -10,6 +11,7 @@ task :download, [:year,:day] do |t, args|
   sh "aocdl -output #{year}/input/day#{day}.txt -day #{day} -year #{year}"
 end
 
+desc "Download all inputs for an Advent of Code year"
 task :download_all, [:year] do |t, args|
   raise "Must specify year" unless args.year
   dir = File.join(args.year, 'input')
