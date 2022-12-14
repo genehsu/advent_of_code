@@ -15,11 +15,12 @@ class Day14
       @x_range[0] = [@x_range[0], x].min
       @x_range[1] = [@x_range[1], x].max
       @y_range[1] = [@y_range[1], y].max
+      @max_y = @y_range[1]
       @cells[[x,y]] = '#'
     end
 
     def drop_sand
-      while drop_one
+      while drop_optimized
         # puts self
       end
     end
@@ -28,7 +29,7 @@ class Day14
       x, y = 500, 0
       return false unless @cells[[x,y]] == ' '
 
-      while y < @y_range[1]
+      while y < @max_y
         y += 1
         if @cells[[x,y]] == ' '
         elsif @cells[[x-1,y]] == ' '
@@ -40,6 +41,57 @@ class Day14
           @grains += 1
           return true
         end
+      end
+      false
+    end
+
+    def drop_optimized
+      x, y = 500, 0
+      return false unless @cells[[x,y]] == ' '
+
+      while y < @max_y
+        n = 1
+        if @cells[[x,y+n]] == ' '
+        elsif @cells[[x-n,y+n]] == ' '
+          while y < @max_y
+            n += 1
+            break if @cells[[x-n+1,y+n]] == ' '
+            break if @cells[[x-n,y+n]] != ' '
+            break if @cells[[x-n+2,y+n]] == ' '
+          end
+          if @cells[[x-n,y+n]] != ' ' &&
+              @cells[[x-n+1,y+n]] != ' ' &&
+              @cells[[x-n+2,y+n]] != ' '
+            (1..n-1).each { |i| @cells[[x-i,y+i]] = '/' }
+            @grains += n-1
+            return true
+          end
+          n -= 1
+          x -= n
+
+        elsif @cells[[x+n,y+n]] == ' '
+          while y < @max_y
+            n += 1
+            break if @cells[[x+n-1,y+n]] == ' '
+            break if @cells[[x+n,y+n]] != ' '
+            break if @cells[[x+n-2,y+n]] == ' '
+          end
+          if @cells[[x+n,y+n]] != ' ' &&
+              @cells[[x+n-1,y+n]] != ' ' &&
+              @cells[[x+n-2,y+n]] != ' '
+            (1..n-1).each { |i| @cells[[x+i,y+i]] = '/' }
+            @grains += n-1
+            return true
+          end
+          n -= 1
+          x += n
+
+        else
+          @cells[[x,y]] = 'O'
+          @grains += 1
+          return true
+        end
+        y += n
       end
       false
     end
